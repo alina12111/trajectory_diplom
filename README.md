@@ -32,7 +32,7 @@ Trajectory сalculator - це програмний проєкт для розр�
 
 Для клонування репозиторію в терміналі необіхдно ввести:
 
-*git clone https://github.com/alina12111/trajectoryy*
+*git clone https://github.com/alina12111/trajectory_diplom*
 
 *cd trajectoryy*
 
