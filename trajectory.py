@@ -241,3 +241,4 @@ calc_button = tk.Button(root, text="Розрахунок траєкторії", 
 calc_button.pack(pady=10)
 
 root.mainloop()
+

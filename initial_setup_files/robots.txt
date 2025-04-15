@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://alina12111.github.io/trajectory_diplom/sitemap.xml
