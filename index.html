@@ -12,7 +12,7 @@
   <meta property="og:title" content="Бакалаврська робота — Траєкторія спуску ЛА" />
   <meta property="og:description" content="Сайт для представлення результатів бакалаврської роботи з моделювання балістичної траєкторії." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://alina.github.io/trajectory_diplom/" />
+  <meta property="og:url" content="https://alina12111.github.io/trajectory_diplom/" />
   <meta property="og:image" content="images/trajectory-graph.png" />
 
   <!-- Schema.org -->
@@ -30,7 +30,7 @@
   }
   </script>
 
-  <!-- Favicon and Web Manifest -->
+  <!-- Favicon and CSS -->
   <link rel="icon" type="image/png" sizes="192x192" href="images/chromeAndroid-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
@@ -40,6 +40,19 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">SumDU</a>
+      <ul class="nav-menu">
+        <li><a href="#intro">Головна</a></li>
+        <li><a href="#intro">Актуальність</a></li>
+        <li><a href="#model">Методологія</a></li>
+        <li><a href="#results">Результати</a></li>
+        <li><a href="#contact">Контакти</a></li>
+      </ul>
+    </div>
+  </nav>
+
   <header role="banner">
     <div class="header-container">
       <img src="images/chromeAndroid-192x192.png" alt="Логотип СумДУ" class="logo" />
@@ -58,21 +71,20 @@
       <p>Метою дослідження є розробка алгоритму та комп’ютерної програми для статистичного моделювання балістичної траєкторії спуску літального апарату в атмосфері Землі. Основним завданням є побудова середньої траєкторії спуску при випадкових параметрах та оцінка розсіювання траєкторій відносно цієї середньої.</p>
     </section>
 
-    <section class="section" data-aos="fade-up">
+    <section class="section" id="model">
       <h2>Математична модель</h2>
       <p>
         Поздовжній рух літального апарату описується системою чотирьох нелінійних диференціальних рівнянь, які враховують аеродинамічний опір, гравітацію та зміну кута нахилу. Щільність повітря моделюється як експоненційна функція від висоти:
       </p>
       <img src="images/5.png" alt="Система рівнянь руху літального апарату" class="responsive-img" />
     </section>
-    
 
     <section class="section">
       <h2>Метод розв’язання</h2>
       <p>Для чисельного розв’язання задачі використовується метод Рунге-Кутти четвертого порядку, який забезпечує високу точність при моделюванні складних змін траєкторії в умовах атмосферного опору. Це дозволяє ефективно враховувати вплив невизначених зовнішніх умов на динаміку польоту.</p>
     </section>
 
-    <section class="section">
+    <section class="section" id="results">
       <h2>Очікувані результати</h2>
       <p>Очікується побудова середньої траєкторії польоту та аналіз розсіювання результатів статистичних моделювань. Отримані результати можуть бути використані для покращення систем управління спуском та розширення можливостей передбачення поведінки об'єктів в атмосфері.</p>
     </section>
@@ -83,9 +95,8 @@
     </section>
   </main>
 
-  <footer role="contentinfo">
+  <footer role="contentinfo" id="contact">
     <p>© 2025 Alina Sokolova | Сумський державний університет</p>
   </footer>
 </body>
 </html>
-
