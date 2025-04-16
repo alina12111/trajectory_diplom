@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
 import math
 import bcrypt # type: ignore
 import json
-from tkinter import Tk, Label, Entry, Button, messagebox
+from tkinter import Tk, Label, Entry, Button
+from tkinter import messagebox
 import numpy as np # type: ignore
 import matplotlib.pyplot as plt # type: ignore
 
