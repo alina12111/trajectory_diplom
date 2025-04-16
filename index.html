@@ -7,30 +7,33 @@
   <meta name="description" content="Інформаційна система для статистичного моделювання траєкторії спуску літального апарату в атмосфері Землі." />
   <meta name="keywords" content="бакалаврська, траєкторія, балістика, моделювання, літальний апарат, атмосфера" />
   <meta name="author" content="Alina Sokolova" />
-  
-
-  <!-- Favicon -->
-  <link rel="icon" href="images/favicon-32x32.png" type="image/png">
+  <meta property="og:title" content="Бакалаврська робота — Траєкторія спуску ЛА" />
+  <meta property="og:description" content="Сайт для представлення результатів бакалаврської роботи з моделювання балістичної траєкторії." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://alina12111.github.io/trajectory_diplom/" />
+  <meta property="og:image" content="images/trajectory-graph.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="images/chromeAndroid-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="stylesheet" href="reset.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-  <header>
+  <header role="banner">
     <div class="header-container">
       <img src="images/chromeAndroid-192x192.png" alt="Логотип СумДУ" class="logo white-logo" />
-      <h1>Інформаційна система статистичного моделювання<br>балістичної траєкторії спуску літального апарату</h1>
+      <h1>Інформаційна система статистичного моделювання балістичної траєкторії спуску літального апарату</h1>
     </div>
   </header>
 
-  <nav class="main-nav">
-    <ul>
+  <nav aria-label="Головне меню">
+    <ul style="display: flex; justify-content: center; list-style: none; gap: 30px; padding: 15px; background-color: #fff; border-bottom: 4px solid #ffcb05;">
       <li><a href="#intro">Актуальність теми</a></li>
       <li><a href="#goal">Мета та завдання дослідження</a></li>
       <li><a href="#model">Математична модель</a></li>
       <li><a href="#method">Метод розв’язання</a></li>
       <li><a href="#results">Очікувані результати</a></li>
-      <li><a href="#visual">Візуалізація</a></li>
+      <li><a href="#viz">Візуалізація</a></li>
     </ul>
   </nav>
 
@@ -61,18 +64,16 @@
       <p>Очікується побудова середньої траєкторії польоту та аналіз розсіювання результатів моделювань. Результати можуть бути використані для покращення систем управління та передбачення поведінки об'єктів.</p>
     </section>
 
-    <section id="visual" class="section">
+    <section id="viz" class="section">
       <h2>Візуалізація</h2>
       <img src="images/graph.png" alt="Графік траєкторії польоту літального апарату" class="responsive-img" />
     </section>
   </main>
 
- <footer role="contentinfo">
-  <p>
-    © 2025 Alina Sokolova | Сумський державний університет<br>
-    Зв’язок: <a href="mailto:alinasokolova@gmail.com"></a>
-  </p>
-</footer>
-
+  <footer role="contentinfo">
+    <p>© 2025 Alina Sokolova | Сумський державний університет</p>
+    <p>Зв’язок: <a href="mailto:alinasokolova121@gmail.com">alinasokolova121@gmail.com</a></p>
+  </footer>
 </body>
 </html>
+
