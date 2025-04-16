@@ -1,11 +1,14 @@
+
 import json
-import tkinter as tk
-import bcrypt # type: ignore
 import math
-from tkinter import Tk, Label, Entry, Button
+import tkinter as tk
 from tkinter import messagebox
-import numpy as np # type: ignore
-import matplotlib.pyplot as plt # type: ignore
+
+import bcrypt  # type: ignore
+import numpy as np  # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
+#from tkinter import Tk, Label, Entry, Button
+
 
 # Функція для перевірки коректності email
 def is_valid_email(email):
@@ -20,7 +23,7 @@ users_db = {}
 
 
 # Функція для розрахунку траєкторії
-def calculate_trajectory(mass, angle, height):
+def calculate_trajectory(_, angle, height):
     g = 9.81
     angle_rad = math.radians(angle)
 
@@ -39,14 +42,14 @@ def calculate_trajectory(mass, angle, height):
         "time_of_flight": time_of_flight,
         "horizontal_distance": horizontal_distance
     }
-    with open("trajectory_results.json", "w") as file:
+    with open("trajectory_results.json", "w", encoding="utf-8") as file:
         json.dump(results, file, indent=4)
 
     return results
 
 # Функція для візуалізації траєкторії
 def plot_trajectory():
-    with open("trajectory_results.json", "r") as file:
+    with open("trajectory_results.json", "r", encoding="utf-8") as file:
         data = json.load(file)
 
     g = 9.81
@@ -153,7 +156,7 @@ def open_registration_window():
         messagebox.showinfo("Успіх", "Реєстрація успішна!")
         registration_window.destroy()  # Закриваємо вікно після реєстрації
         calc_button.config(state="normal")  # Активуємо кнопку розрахунків
-    except Exception as e:
+    except (IOError, ValueError) as e:
         messagebox.showerror("Помилка", f"Не вдалося зберегти дані: {e}")
 
     # Кнопки
@@ -178,4 +181,3 @@ calc_button = tk.Button(root, text="Розрахунок траєкторії", 
 calc_button.pack(pady=10)
 
 root.mainloop()
-
