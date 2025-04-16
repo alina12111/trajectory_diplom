@@ -42,7 +42,7 @@ h1 {
 }
 
 /* === Navigation Menu === */
-nav {
+nav[aria-label="Головна навігація"] {
   background-color: #ffffff;
   padding: 15px 0;
   text-align: center;
@@ -62,11 +62,12 @@ nav a {
 }
 
 nav a:hover,
-nav a.active {
+nav a.active,
+nav a[aria-current="page"] {
   color: #ffcb05;
 }
 
-nav a.active::after {
+nav a[aria-current="page"]::after {
   content: '';
   display: block;
   width: 100%;
@@ -165,5 +166,6 @@ section:target::before {
     margin: 10px 0;
   }
 }
+
 
 
