@@ -1,7 +1,7 @@
-import tkinter as tk
-import math
-import bcrypt # type: ignore
 import json
+import tkinter as tk
+import bcrypt # type: ignore
+import math
 from tkinter import Tk, Label, Entry, Button
 from tkinter import messagebox
 import numpy as np # type: ignore
@@ -18,69 +18,6 @@ def hash_password(password):
 # Симуляція бази даних
 users_db = {}
 
-# Функція для реєстрації користувача
-def register_user():
-    email = email_entry.get() # type: ignore
-    password = password_entry.get() # type: ignore
-    confirm_password = confirm_password_entry.get() # type: ignore
-
-    print("Розпочато реєстрацію...")
-
-    # Перевірка email
-    if not is_valid_email(email):
-        print("Некоректний email.")
-        messagebox.showerror("Помилка", "Некоректний email!")
-        return
-    print("Email успішно перевірено.")
-
-    # Перевірка, чи існує email
-    if email in users_db:
-        print("Email вже зареєстрований.")
-        messagebox.showerror("Помилка", "Користувач із таким email вже зареєстрований!")
-        return
-    print("Перевірка наявності email успішна.")
-
-    # Перевірка пароля
-    if len(password) < 8 or not any(char.isupper() for char in password) or not any(char.isdigit() for char in password):
-        print("Пароль не відповідає вимогам.")
-        messagebox.showerror("Помилка", "Пароль має бути не менше 8 символів з великою літерою та цифрою!")
-        return
-    print("Пароль успішно перевірено.")
-
-    # Підтвердження пароля
-    if password != confirm_password:
-        print("Паролі не співпадають.")
-        messagebox.showerror("Помилка", "Паролі не співпадають!")
-        return
-    print("Підтвердження пароля успішне.")
-
-    # Хешування пароля
-    hashed_password = hash_password(password).decode('utf-8')  # Декодуємо bytes у str
-    users_db[email] = hashed_password
-    print("Пароль хешовано та збережено у базі даних.")
-
-    # Збереження у файл
-    try:
-        with open("users_db.json", "w") as file:
-            json.dump(users_db, file)
-        print("Дані успішно збережені у файл.")
-    except Exception as e:
-        print(f"Помилка під час збереження даних: {e}")
-        messagebox.showerror("Помилка", "Не вдалося зберегти дані у файл!")
-        return
-
-    # Повідомлення про успіх
-    print("Реєстрація завершена. Виводимо повідомлення про успіх.")
-    messagebox.showinfo("Успіх", "Реєстрація успішна!")
-
-    # Закриття вікна реєстрації
-    try:
-        registration_window.destroy() # type: ignore
-        print("Вікно реєстрації закрито.")
-    except Exception as e:
-        print(f"Помилка під час закриття вікна: {e}")
-    
-    calc_button.config(state="normal")  # Активуємо кнопку розрахунків
 
 # Функція для розрахунку траєкторії
 def calculate_trajectory(mass, angle, height):
@@ -211,7 +148,7 @@ def open_registration_window():
         users_db[email] = hashed_password
 
     try:
-        with open("users_db.json", "w") as file:
+        with open("users_db.json", "r", encoding="utf-8") as file:
             json.dump(users_db, file)
         messagebox.showinfo("Успіх", "Реєстрація успішна!")
         registration_window.destroy()  # Закриваємо вікно після реєстрації
