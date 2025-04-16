@@ -50,6 +50,16 @@ h1 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.section[data-aos] {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.section[data-aos].aos-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .section:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
@@ -78,6 +88,13 @@ h1 {
   box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
+img {
+  object-fit: contain;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* === Footer === */
 footer {
   text-align: center;
@@ -98,6 +115,16 @@ button:hover, a:hover {
   opacity: 0.9;
 }
 
+/* === AOS Animations === */
+[data-aos] {
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+}
+
 /* === Responsive === */
 @media (max-width: 768px) {
   h1 {
@@ -112,3 +139,7 @@ button:hover, a:hover {
     font-size: 1.4rem;
   }
 }
+
+/* === AOS Library === */
+@import url('https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css');
+
