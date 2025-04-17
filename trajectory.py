@@ -6,10 +6,9 @@ from tkinter import messagebox
 import bcrypt  # type: ignore
 import numpy as np  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
-#from tkinter import Tk, Label, Entry, Button
-
 
 # Функція для перевірки коректності email
+
 def is_valid_email(email):
     """
     Перевіряє правильність формату email.
@@ -23,6 +22,7 @@ def is_valid_email(email):
     return "@" in email and "." in email
 
 # Функція для хешування пароля
+
 def hash_password(password):
     """
     Генерує захищений хеш пароля за допомогою алгоритму bcrypt.
@@ -38,38 +38,26 @@ def hash_password(password):
 # Симуляція бази даних
 users_db = {}
 
-
 # Функція для розрахунку траєкторії
+
 def calculate_trajectory(_, angle, height):
     """
     Виконує розрахунок балістичної траєкторії вертикального спуску літального апарату
     в атмосфері Землі за заданим кутом та висотою.
 
-    Результатом є початкова швидкість, час польоту та горизонтальна дальність.
-
     Args:
         angle (float): Кут нахилу траєкторії в градусах.
-        height (float): Початкова висота (м) — висота запуску апарата.
+        height (float): Початкова висота (м).
 
     Returns:
-        dict: Словник із такими значеннями:
-            - 'initial_velocity': Початкова швидкість (м/с)
-            - 'time_of_flight': Час польоту (с)
-            - 'horizontal_distance': Горизонтальна дальність (м)
+        dict: Словник з початковою швидкістю, часом польоту та горизонтальною відстанню.
     """
     g = 9.81
     angle_rad = math.radians(angle)
-
-    # Початкова швидкість
     initial_velocity = math.sqrt(2 * g * height)
-
-    # Час польоту
     time_of_flight = (2 * initial_velocity * math.sin(angle_rad)) / g
-
-    # Горизонтальна відстань
     horizontal_distance = initial_velocity * math.cos(angle_rad) * time_of_flight
 
-    # Збереження результатів у JSON
     results = {
         "initial_velocity": initial_velocity,
         "time_of_flight": time_of_flight,
@@ -81,30 +69,36 @@ def calculate_trajectory(_, angle, height):
     return results
 
 # Функція для візуалізації траєкторії
+
 def plot_trajectory():
+    """
+    Зчитує результати з JSON-файлу та візуалізує траєкторію польоту на графіку.
+    """
     with open("trajectory_results.json", "r", encoding="utf-8") as file:
         data = json.load(file)
 
     g = 9.81
     v = data["initial_velocity"]
-    angle = 45  # Приклад кута
-    angle_rad = np.radians(angle) # type: ignore
+    angle = 45
+    angle_rad = np.radians(angle)
 
-    # Час та координати
-    t = np.linspace(0, data["time_of_flight"], num=500) # type: ignore
-    x = v * np.cos(angle_rad) * t # type: ignore
-    y = x * np.tan(angle_rad) - (g * x**2) / (2 * v**2 * np.cos(angle_rad)**2) # type: ignore
+    t = np.linspace(0, data["time_of_flight"], num=500)
+    x = v * np.cos(angle_rad) * t
+    y = x * np.tan(angle_rad) - (g * x**2) / (2 * v**2 * np.cos(angle_rad)**2)
 
-    # Побудова графіка
-    plt.plot(x, y) # type: ignore
-    plt.title("Траєкторія польоту") # type: ignore
-    plt.xlabel("Горизонтальна відстань (м)") # type: ignore
-    plt.ylabel("Висота (м)") # type: ignore
-    plt.grid() # type: ignore
-    plt.show() # type: ignore
+    plt.plot(x, y)
+    plt.title("Траєкторія польоту")
+    plt.xlabel("Горизонтальна відстань (м)")
+    plt.ylabel("Висота (м)")
+    plt.grid()
+    plt.show()
 
 # Інтерфейс
+
 def open_calculation_window():
+    """
+    Відкриває нове вікно для введення параметрів і обчислення траєкторії.
+    """
     calc_window = tk.Toplevel(root)
     calc_window.title("Розрахунок траєкторії")
 
@@ -135,17 +129,17 @@ def open_calculation_window():
     tk.Button(calc_window, text="Розрахувати", command=calculate).grid(row=3, column=0, padx=5, pady=5)
     tk.Button(calc_window, text="Побудувати графік", command=plot_trajectory).grid(row=3, column=1, padx=5, pady=5)
 
+
 def open_registration_window():
-    # Створення модального вікна реєстрації
+    """
+    Відкриває вікно реєстрації користувача з полями для email та пароля.
+    """
     registration_window = tk.Toplevel(root)
     registration_window.title("Реєстрація")
-    registration_window.geometry("300x200")  # Розмір вікна
+    registration_window.geometry("300x200")
+    registration_window.grab_set()
+    registration_window.transient(root)
 
-    # Заборона взаємодії з головним вікном
-    registration_window.grab_set()  # Робимо вікно модальним
-    registration_window.transient(root)  # Робимо вікно залежним від головного
-
-    # Поля для введення email та пароля
     tk.Label(registration_window, text="Email:").grid(row=0, column=0, padx=10, pady=10, sticky="w")
     email_entry = tk.Entry(registration_window, width=25)
     email_entry.grid(row=0, column=1, padx=10, pady=10)
@@ -158,7 +152,6 @@ def open_registration_window():
     confirm_password_entry = tk.Entry(registration_window, width=25, show="*")
     confirm_password_entry.grid(row=2, column=1, padx=10, pady=10)
 
-    # Обробник реєстрації
     def register_user():
         email = email_entry.get()
         password = password_entry.get()
@@ -187,16 +180,14 @@ def open_registration_window():
         with open("users_db.json", "r", encoding="utf-8") as file:
             json.dump(users_db, file)
         messagebox.showinfo("Успіх", "Реєстрація успішна!")
-        registration_window.destroy()  # Закриваємо вікно після реєстрації
-        calc_button.config(state="normal")  # Активуємо кнопку розрахунків
+        registration_window.destroy()
+        calc_button.config(state="normal")
     except (IOError, ValueError) as e:
         messagebox.showerror("Помилка", f"Не вдалося зберегти дані: {e}")
 
-    # Кнопки
     tk.Button(registration_window, text="Register", command=register_user).grid(row=3, column=0, columnspan=2, pady=10)
     tk.Button(registration_window, text="Cancel", command=registration_window.destroy).grid(row=4, column=0, columnspan=2, pady=5)
 
-    # Центрування вікна на екрані
     registration_window.update_idletasks()
     x = (registration_window.winfo_screenwidth() - registration_window.winfo_reqwidth()) // 2
     y = (registration_window.winfo_screenheight() - registration_window.winfo_reqheight()) // 2
@@ -206,10 +197,7 @@ def open_registration_window():
 root = tk.Tk()
 root.title("Система моделювання")
 
-# Кнопка відкриття реєстрації
 tk.Button(root, text="Реєстрація", command=open_registration_window).pack(pady=10)
-
-# Кнопка для розрахунків (спочатку неактивна)
 calc_button = tk.Button(root, text="Розрахунок траєкторії", command=open_calculation_window, state="disabled")
 calc_button.pack(pady=10)
 
