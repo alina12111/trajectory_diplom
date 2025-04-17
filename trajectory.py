@@ -1,4 +1,3 @@
-
 import json
 import math
 import tkinter as tk
@@ -12,10 +11,28 @@ import matplotlib.pyplot as plt  # type: ignore
 
 # Функція для перевірки коректності email
 def is_valid_email(email):
+    """
+    Перевіряє правильність формату email.
+
+    Args:
+        email (str): Адреса електронної пошти.
+
+    Returns:
+        bool: True, якщо адреса має символ '@' та '.', інакше False.
+    """
     return "@" in email and "." in email
 
 # Функція для хешування пароля
 def hash_password(password):
+    """
+    Генерує захищений хеш пароля за допомогою алгоритму bcrypt.
+
+    Args:
+        password (str): Пароль у відкритому вигляді.
+
+    Returns:
+        bytes: Захешований пароль у форматі bytes.
+    """
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 # Симуляція бази даних
@@ -24,6 +41,22 @@ users_db = {}
 
 # Функція для розрахунку траєкторії
 def calculate_trajectory(_, angle, height):
+    """
+    Виконує розрахунок балістичної траєкторії вертикального спуску літального апарату
+    в атмосфері Землі за заданим кутом та висотою.
+
+    Результатом є початкова швидкість, час польоту та горизонтальна дальність.
+
+    Args:
+        angle (float): Кут нахилу траєкторії в градусах.
+        height (float): Початкова висота (м) — висота запуску апарата.
+
+    Returns:
+        dict: Словник із такими значеннями:
+            - 'initial_velocity': Початкова швидкість (м/с)
+            - 'time_of_flight': Час польоту (с)
+            - 'horizontal_distance': Горизонтальна дальність (м)
+    """
     g = 9.81
     angle_rad = math.radians(angle)
 
