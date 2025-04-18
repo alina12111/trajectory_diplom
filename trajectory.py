@@ -7,6 +7,8 @@ import bcrypt  # type: ignore
 import numpy as np  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 
+from logger_config import logger
+
 # Функція для перевірки коректності email
 
 def is_valid_email(email):

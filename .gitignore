@@ -12,3 +12,4 @@ env/
 
 # Test result files
 *.log
+logs/
