@@ -1,23 +1,30 @@
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 
-# Створюємо папку для логів, якщо її ще немає
+# Створюємо папку для логів
 os.makedirs("logs", exist_ok=True)
 
-# Формат повідомлень
-log_format = "%(asctime)s [%(levelname)s]: %(message)s"
-
-# Налаштування логера
-logging.basicConfig(
-    level=logging.DEBUG,
-    format=log_format,
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.FileHandler("logs/error.log", mode='w'),
-        logging.FileHandler("logs/combined.log", mode='w'),
-        logging.StreamHandler()
-    ]
+# Формат повідомлення з контекстом користувача
+formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] [%(name)s] [%(user)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
 )
 
-# Імпортний логер для використання у всіх модулях
+# Базовий логер
 logger = logging.getLogger("trajectory_logger")
+logger.setLevel(logging.DEBUG)
+
+# Консольний обробник
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+# Файловий обробник з ротацією за розміром
+file_handler = RotatingFileHandler("logs/combined.log", maxBytes=500000, backupCount=5)
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
+# Функція для створення адаптованого логера з контекстом
+def get_logger_with_user(user_id):
+    return logging.LoggerAdapter(logger, {"user": user_id})
