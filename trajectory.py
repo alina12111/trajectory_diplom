@@ -9,6 +9,15 @@ import matplotlib.pyplot as plt  # type: ignore
 
 from logger_config import logger
 
+import uuid
+
+def handle_exception(e, context=None):
+    error_id = str(uuid.uuid4())[:8]
+    context_info = f" | CONTEXT: {context}" if context else ""
+    logger.error(f"ERROR_ID: {error_id} | {str(e)}{context_info}")
+    return error_id
+
+
 def is_valid_email(email):
     return "@" in email and "." in email
 
@@ -38,7 +47,7 @@ def calculate_trajectory(_, angle, height):
         logger.info("Результати успішно збережені в trajectory_results.json")
         return results
     except Exception as e:
-        logger.exception("Помилка при обчисленні траєкторії: %s", str(e))
+        handle_exception(e, context={"angle": angle, "height": height})
         raise
 
 def plot_trajectory():
@@ -64,7 +73,7 @@ def plot_trajectory():
 
         logger.info("Графік траєкторії успішно побудовано")
     except Exception as e:
-        logger.exception("Помилка при побудові графіка: %s", str(e))
+        handle_exception(e)
 
 def open_calculation_window():
     calc_window = tk.Toplevel(root)
@@ -154,7 +163,7 @@ def open_registration_window():
             registration_window.destroy()
             calc_button.config(state="normal")
         except (IOError, ValueError) as e:
-            logger.exception("Помилка при збереженні даних користувача: %s", str(e))
+            handle_exception(e, context={"email": email})
             messagebox.showerror("Помилка", f"Не вдалося зберегти дані: {e}")
 
     tk.Button(registration_window, text="Register", command=register_user).grid(row=3, column=0, columnspan=2, pady=10)
