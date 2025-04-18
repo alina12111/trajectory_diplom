@@ -1,5 +1,6 @@
 import logging
 from logging.handlers import RotatingFileHandler
+from pygelf import GelfUdpHandler
 import os
 
 # Створюємо папку для логів
@@ -11,7 +12,7 @@ formatter = logging.Formatter(
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 
-# Базовий логер
+# Основний логер
 logger = logging.getLogger("trajectory_logger")
 logger.setLevel(logging.DEBUG)
 
@@ -20,11 +21,16 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-# Файловий обробник з ротацією за розміром
+# Файловий обробник з ротацією
 file_handler = RotatingFileHandler("logs/combined.log", maxBytes=500000, backupCount=5)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-# Функція для створення адаптованого логера з контекстом
+# Graylog обробник (централізоване логування)
+graylog_handler = GelfUdpHandler(host='127.0.0.1', port=12201)  # Заміни IP на адресу Graylog-сервера
+logger.addHandler(graylog_handler)
+
+# Функція для логера з контекстом (користувач)
 def get_logger_with_user(user_id):
     return logging.LoggerAdapter(logger, {"user": user_id})
+
