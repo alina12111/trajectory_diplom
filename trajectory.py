@@ -8,7 +8,7 @@ import numpy as np  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 
 from logger_config import logger
-
+from localization import MESSAGES_UA
 import uuid
 
 def handle_exception(e, context=None):
@@ -103,10 +103,28 @@ def open_calculation_window():
                                               f"Дальність: {results['horizontal_distance']:.2f} м")
         except ValueError:
             logger.warning("Помилка валідації: некоректні значення введені користувачем")
-            messagebox.showerror("Помилка", "Введіть коректні значення!")
+            show_error_with_feedback(MESSAGES_UA["invalid_input"])
 
     tk.Button(calc_window, text="Розрахувати", command=calculate).grid(row=3, column=0, padx=5, pady=5)
     tk.Button(calc_window, text="Побудувати графік", command=plot_trajectory).grid(row=3, column=1, padx=5, pady=5)
+
+def show_error_with_feedback(message, context=None):
+    error_win = tk.Toplevel(root)
+    error_win.title("Помилка")
+
+    tk.Label(error_win, text=message, wraplength=350, justify="left").pack(padx=10, pady=10)
+
+    tk.Label(error_win, text="Опишіть, що сталося:", anchor="w").pack(padx=10, pady=(0, 2))
+    feedback_entry = tk.Text(error_win, height=4, width=40)
+    feedback_entry.pack(padx=10, pady=5)
+
+    def submit_feedback():
+        feedback = feedback_entry.get("1.0", tk.END).strip()
+        logger.info("Зворотній зв’язок користувача: %s | CONTEXT: %s", feedback, context)
+        messagebox.showinfo("Дякуємо", MESSAGES_UA["thank_you"])
+        error_win.destroy()
+
+    tk.Button(error_win, text=MESSAGES_UA["report_button"], command=submit_feedback).pack(pady=10)
 
 def open_registration_window():
     registration_window = tk.Toplevel(root)
@@ -134,22 +152,22 @@ def open_registration_window():
 
         if not is_valid_email(email):
             logger.warning("Некоректна електронна адреса: %s", email)
-            messagebox.showerror("Помилка", "Некоректний email!")
+            show_error_with_feedback(MESSAGES_UA["invalid_email"], context={"email": email})
             return
 
         if email in users_db:
             logger.warning("Спроба повторної реєстрації з email: %s", email)
-            messagebox.showerror("Помилка", "Користувач із таким email вже зареєстрований!")
+            show_error_with_feedback(MESSAGES_UA["user_exists"], context={"email": email})
             return
 
         if len(password) < 8 or not any(char.isupper() for char in password) or not any(char.isdigit() for char in password):
             logger.warning("Пароль не відповідає вимогам")
-            messagebox.showerror("Помилка", "Пароль має бути не менше 8 символів з великою літерою та цифрою!")
+            show_error_with_feedback(MESSAGES_UA["weak_password"])
             return
 
         if password != confirm_password:
             logger.warning("Паролі не збігаються")
-            messagebox.showerror("Помилка", "Паролі не співпадають!")
+            show_error_with_feedback(MESSAGES_UA["password_mismatch"])
             return
 
         hashed_password = hash_password(password).decode('utf-8')
@@ -164,7 +182,7 @@ def open_registration_window():
             calc_button.config(state="normal")
         except (IOError, ValueError) as e:
             handle_exception(e, context={"email": email})
-            messagebox.showerror("Помилка", f"Не вдалося зберегти дані: {e}")
+            show_error_with_feedback(MESSAGES_UA["save_error"], context={"email": email})
 
     tk.Button(registration_window, text="Register", command=register_user).grid(row=3, column=0, columnspan=2, pady=10)
     tk.Button(registration_window, text="Cancel", command=registration_window.destroy).grid(row=4, column=0, columnspan=2, pady=5)
